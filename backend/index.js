@@ -22,4 +22,3 @@ const Vaha = new Dragon();
 console.log({Adlan});
 console.log({Bulat});
 console.log({Tapa});
-console.log({Vaha});
