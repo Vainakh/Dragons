@@ -1,24 +1,27 @@
 const Dragon = require("./dragon");
 
-const Adlan = new Dragon({
+const Alpha = new Dragon({
   birthday: new Date(), 
-  nickname: "Dadashka"
+  nickname: "A"
 });
 
-const Bulat = new Dragon({
+const Beta = new Dragon({
   birthday: new Date(), 
-  nickname: "Buleek"
+  nickname: "B",
+  traits: [
+    {traitType: 'backgroundColor', traitValue: "green"}
+  ]
 });
 
-const Tapa = new Dragon();
+const Gamma = new Dragon();
 
 setTimeout(() => {
-  const Ibra = new Dragon();
-  console.log({Ibra});
+  const Delta = new Dragon();
+  console.log('Delta', Delta);
 }, 3000);
 
-const Vaha = new Dragon();
+console.log('Alpha', Alpha);
+console.log('Bata', Beta);
+console.log('Gamma', Gamma);
 
-console.log({Adlan});
-console.log({Bulat});
-console.log({Tapa});
+
