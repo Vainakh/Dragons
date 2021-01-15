@@ -1,4 +1,5 @@
 const { REFRESH_RATE, SECONDS} = require('./config.js');
+const Dragon = require('./dragon.js');
 
 const refreshRate = REFRESH_RATE * SECONDS;
 
@@ -14,6 +15,16 @@ class Generation {
     refreshRate - expirationPeriod : 
     refreshRate + expirationPeriod;
 
-    this.expiration = new Date(Date.now() + msuntilExpiration);
+    return new Date(Date.now() + msUntilExpiration);
+  }
+
+  newDragon() {
+    if (Date.now() > this.expiration) {
+      throw new Error(`This generation expired on ${this.expiration}`);
+    }
+
+    return new Dragon();
   }
 }
+
+module.exports = Generation;
