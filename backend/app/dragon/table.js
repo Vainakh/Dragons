@@ -10,9 +10,7 @@ class DragonTable {
         [birthday, nickname, generationId],
         (error, response) => {
           if (error) return reject(error);
-
           const dragonId = response.rows[0].id;
-
           resolve({dragonId });
         }
       )
