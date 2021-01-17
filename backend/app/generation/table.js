@@ -8,9 +8,7 @@ class GenerationTable {
         [generation.expiration],
         (error, response) => {
           if (error) return reject(error);
-  
           const generationId = response.rows[0].id;
-
           resolve({generationId});
         }
       );
