@@ -29808,6 +29808,12 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+var DEFAULT_GENERATION = {
+  generationId: '',
+  expiration: ''
+};
+var MINIMUM_DELAY = 3000;
+
 var Generation = /*#__PURE__*/function (_Component) {
   _inherits(Generation, _Component);
 
@@ -29825,11 +29831,8 @@ var Generation = /*#__PURE__*/function (_Component) {
     }
 
     return _possibleConstructorReturn(_this, (_temp = _this = _super.call.apply(_super, [this].concat(args)), _this.state = {
-      generation: {
-        generationId: 999,
-        expiration: '2020-05-01'
-      }
-    }, _this.fetchGeneration = function () {
+      generation: DEFAULT_GENERATION
+    }, _this.timer = null, _this.fetchGeneration = function () {
       fetch('http://localhost:3000/generation').then(function (response) {
         return response.json();
       }).then(function (json) {
@@ -29841,13 +29844,31 @@ var Generation = /*#__PURE__*/function (_Component) {
       }).catch(function (error) {
         return console.error('error', error);
       });
+    }, _this.fetchNextGeneration = function () {
+      _this.fetchGeneration();
+
+      var delay = new Date(_this.state.generation.expiration).getTime() - new Date().getTime();
+
+      if (delay < MINIMUM_DELAY) {
+        delay = MINIMUM_DELAY;
+      }
+
+      ;
+      _this.timer = setTimeout(function () {
+        return _this.fetchNextGeneration();
+      }, delay);
     }, _temp));
   }
 
   _createClass(Generation, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.fetchGeneration();
+      this.fetchNextGeneration();
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearTimeout(this.timer);
     }
   }, {
     key: "render",
