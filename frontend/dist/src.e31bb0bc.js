@@ -29814,18 +29814,37 @@ var Generation = /*#__PURE__*/function (_Component) {
   var _super = _createSuper(Generation);
 
   function Generation() {
+    var _this;
+
+    var _temp;
+
     _classCallCheck(this, Generation);
 
-    return _super.apply(this, arguments);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _possibleConstructorReturn(_this, (_temp = _this = _super.call.apply(_super, [this].concat(args)), _this.state = {
+      generation: {
+        generationId: 999,
+        expiration: '2020-05-01'
+      }
+    }, _this.fetchGeneration = function () {
+      fetch('http://localhost:3000/generation').then(function (response) {
+        return console.log('response', response);
+      });
+    }, _temp));
   }
 
   _createClass(Generation, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.fetchGeneration();
+    }
+  }, {
     key: "render",
     value: function render() {
-      var generation = {
-        generationId: 999,
-        expiration: '2020-05-01'
-      };
+      var generation = this.state.generation;
       return _react.default.createElement("div", null, _react.default.createElement("h3", null, "Generation ", generation.generationId, ". Expires on:"), _react.default.createElement("h4", null, new Date(generation.expiration).toString()));
     }
   }]);
