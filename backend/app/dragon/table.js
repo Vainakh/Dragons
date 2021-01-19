@@ -3,13 +3,16 @@ const DragonTraitTable = require('../dragonTrait/table');
 
 class DragonTable {
   static storeDragon(dragon) {
-    const { birthday, nickname, generationId} = dragon;
+    // console.log("dragon", dragon);
+    // console.log("dragon traits", dragon.traits);
+    const { birthday, nickname, generationId } = dragon;
 
     return new Promise((resolve, reject) => {
       pool.query(
         'INSERT INTO dragon(birthday, nickname, "generationId") VALUES($1, $2, $3) RETURNING id',
         [birthday, nickname, generationId],
         (error, response) => {
+          // console.log({response});
           if (error) return reject(error);
           const dragonId = response.rows[0].id;
 
@@ -18,14 +21,17 @@ class DragonTable {
               dragonId, traitType, traitValue
             });
           }))
-          .then(() => ({ dragonId}))
+          .then(() => {
+            resolve({ dragonId });
+          })
           .catch(error => reject(error));
         }
       )
     });
+    
   }
 
-  static getDragon({ dragonId}) {
+  static getDragon({ dragonId }) {
     return new Promise((resolve, reject) => {
       pool.query(
         `SELECT birthday, nickname, "generationId" FROM dragon WHERE dragon.id = $1`,
