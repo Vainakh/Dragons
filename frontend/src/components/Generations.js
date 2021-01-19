@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 
 const DEFAULT_GENERATION = { generationId: '', expiration: ''};
-
 const MINIMUM_DELAY = 3000;
-
-
 
 class Generation extends Component {
   state = { 
@@ -26,7 +23,6 @@ class Generation extends Component {
     .then(response => 
     response.json())
     .then(json => { console.log('json',    json)
-
     this.setState({ generation: json.generation })
   })
     .catch(error => console.error('error', error));
