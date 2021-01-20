@@ -47184,15 +47184,35 @@ var DEFAULT_GENERATION = {
   expiration: ''
 };
 
-var generationReducer = function generationReducer() {
+var generationReducer = function generationReducer(state, action) {
+  console.log('generationReducer state', state);
+  console.log('generationReducer action', action);
+
+  if (action.type === "GENERATION_ACTION_TYPE") {
+    return {
+      generation: action.generation
+    };
+  }
+
   return {
     generation: DEFAULT_GENERATION
   };
 };
 
-var store = (0, _redux.createStore)(generationReducer + window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-console.log('store', store);
-console.log('store.getState', store.getState());
+var store = (0, _redux.createStore)(generationReducer); // console.log('store', store);
+// console.log('store.getState', store.getState());
+
+store.dispatch({
+  type: 'foo'
+});
+store.dispatch({
+  type: 'GENERATION_ACTION_TYPE',
+  generation: {
+    generationId: 'goo',
+    expiration: 'bar'
+  }
+});
+console.log('store.getState()', store.getState());
 (0, _reactDom.render)( /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, "Dragon Stack"), /*#__PURE__*/_react.default.createElement(_Generations.default, null), /*#__PURE__*/_react.default.createElement(_Dragon.default, null)), document.getElementById("root"));
 },{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/Generations":"components/Generations.js","./components/Dragon":"components/Dragon.js","./index.css":"index.css","redux":"../node_modules/redux/es/redux.js"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
