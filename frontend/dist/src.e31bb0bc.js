@@ -47162,7 +47162,62 @@ function isCrushed() {}
 if ("development" !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
   warning('You are currently using minified code outside of NODE_ENV === "production". ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or setting mode to production in webpack (https://webpack.js.org/concepts/mode/) ' + 'to ensure you have the correct code for your production build.');
 }
-},{"symbol-observable":"../node_modules/symbol-observable/es/index.js"}],"index.js":[function(require,module,exports) {
+},{"symbol-observable":"../node_modules/symbol-observable/es/index.js"}],"actions/types.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.GENERATION_ACTION_TYPE = void 0;
+var GENERATION_ACTION_TYPE = 'GENERATION_ACTION_TYPE';
+exports.GENERATION_ACTION_TYPE = GENERATION_ACTION_TYPE;
+},{}],"reducers/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.generationReducer = void 0;
+
+var _types = require("../actions/types");
+
+var DEFAULT_GENERATION = {
+  generationId: '',
+  expiration: ''
+};
+
+var generationReducer = function generationReducer(state, action) {
+  if (action.type === _types.GENERATION_ACTION_TYPE) {
+    return {
+      generation: action.generation
+    };
+  }
+
+  return {
+    generation: DEFAULT_GENERATION
+  };
+};
+
+exports.generationReducer = generationReducer;
+},{"../actions/types":"actions/types.js"}],"actions/generation.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.generationActionCreator = void 0;
+
+var _types = require("./types");
+
+var generationActionCreator = function generationActionCreator(payload) {
+  return {
+    type: _types.GENERATION_ACTION_TYPE,
+    generation: payload
+  };
+};
+
+exports.generationActionCreator = generationActionCreator;
+},{"./types":"actions/types.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -47177,58 +47232,23 @@ require("./index.css");
 
 var _redux = require("redux");
 
+var _reducers = require("./reducers");
+
+var _generation = require("./actions/generation");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var DEFAULT_GENERATION = {
-  generationId: '',
-  expiration: ''
-};
-var GENERATION_ACTION_TYPE = 'GENERATION_ACTION_TYPE';
-
-var generationReducer = function generationReducer(state, action) {
-  // console.log('generationReducer state', state);
-  // console.log('generationReducer action',action)
-  if (action.type === GENERATION_ACTION_TYPE) {
-    return {
-      generation: action.generation
-    };
-  }
-
-  return {
-    generation: DEFAULT_GENERATION
-  };
-};
-
-var store = (0, _redux.createStore)(generationReducer);
+var store = (0, _redux.createStore)(_reducers.generationReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 store.subscribe(function () {
   return console.log('store.getState', store.getState());
 });
-console.log('store', store);
-store.dispatch({
-  type: 'foo'
+fetch('http://localhost:3000/generation').then(function (response) {
+  return response.json();
+}).then(function (json) {
+  store.dispatch((0, _generation.generationActionCreator)(json.generation));
 });
-store.dispatch({
-  type: GENERATION_ACTION_TYPE,
-  generation: {
-    generationId: 'goo',
-    expiration: 'bar'
-  }
-}); // console.log('store.getState()', store.getState());
-
-var generationActionCreator = function generationActionCreator(payload) {
-  return {
-    type: GENERATION_ACTION_TYPE,
-    generation: payload
-  };
-};
-
-var zooAction = generationActionCreator({
-  generationId: 'zoo',
-  expiration: 'bar'
-});
-store.dispatch(zooAction);
 (0, _reactDom.render)( /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, "Dragon Stack"), /*#__PURE__*/_react.default.createElement(_Generations.default, null), /*#__PURE__*/_react.default.createElement(_Dragon.default, null)), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/Generations":"components/Generations.js","./components/Dragon":"components/Dragon.js","./index.css":"index.css","redux":"../node_modules/redux/es/redux.js"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/Generations":"components/Generations.js","./components/Dragon":"components/Dragon.js","./index.css":"index.css","redux":"../node_modules/redux/es/redux.js","./reducers":"reducers/index.js","./actions/generation":"actions/generation.js"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
