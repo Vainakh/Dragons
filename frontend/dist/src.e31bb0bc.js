@@ -33346,16 +33346,8 @@ var Generation = /*#__PURE__*/function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _possibleConstructorReturn(_this, (_temp = _this = _super.call.apply(_super, [this].concat(args)), _this.timer = null, _this.fetchGeneration = function () {
-      fetch('http://localhost:3000/generation').then(function (response) {
-        return response.json();
-      }).then(function (json) {
-        _this.props.dispatchGeneration(json.generation);
-      }).catch(function (error) {
-        return console.error('error', error);
-      });
-    }, _this.fetchNextGeneration = function () {
-      _this.fetchGeneration();
+    return _possibleConstructorReturn(_this, (_temp = _this = _super.call.apply(_super, [this].concat(args)), _this.timer = null, _this.fetchNextGeneration = function () {
+      _this.props.fetchGeneration();
 
       var delay = new Date(_this.props.generation.expiration).getTime() - new Date().getTime();
 
@@ -33405,8 +33397,21 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     dispatchGeneration: function dispatchGeneration(generation) {
       return dispatch((0, _generation.generationActionCreator)(generation));
+    },
+    fetchGeneration: function fetchGeneration() {
+      return _fetchGeneration(dispatch);
     }
   };
+};
+
+var _fetchGeneration = function _fetchGeneration(dispatch) {
+  return fetch('http://localhost:3000/generation').then(function (response) {
+    return response.json();
+  }).then(function (json) {
+    dispatch((0, _generation.generationActionCreator)(json.generation));
+  }).catch(function (error) {
+    return console.error('error', error);
+  });
 };
 
 var componentConnector = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps);
