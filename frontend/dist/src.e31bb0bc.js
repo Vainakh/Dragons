@@ -33265,27 +33265,52 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GENERATION_ACTION_TYPE = void 0;
-var GENERATION_ACTION_TYPE = 'GENERATION_ACTION_TYPE';
-exports.GENERATION_ACTION_TYPE = GENERATION_ACTION_TYPE;
+exports.GENERATION = void 0;
+var GENERATION = {
+  FETCH: 'GENERATION_FETCH',
+  FETCH_ERROR: 'GENERATION_FETCH_ERROR',
+  FETCH_SUCCESS: 'GENERATION_FETCH_SUCCESS'
+};
+exports.GENERATION = GENERATION;
 },{}],"actions/generation.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.generationActionCreator = void 0;
+exports.fetchGeneration = void 0;
 
 var _types = require("./types");
 
-var generationActionCreator = function generationActionCreator(payload) {
-  return {
-    type: _types.GENERATION_ACTION_TYPE,
-    generation: payload
+var fetchGeneration = function fetchGeneration() {
+  return function (dispatch) {
+    dispatch({
+      type: _types.GENERATION.FETCH
+    });
+    return fetch('http://localhost:3000/generation').then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      if (json.type === 'error') {
+        dispatch({
+          type: _types.GENERATION.FETCH_ERROR,
+          message: json.message
+        });
+      } else {
+        dispatch({
+          type: _types.GENERATION.FETCH_SUCCESS,
+          generation: json.generation
+        });
+      }
+    }).catch(function (error) {
+      return dispatch({
+        type: _types.GENERATION.FETCH_ERROR,
+        message: error.message
+      });
+    });
   };
 };
 
-exports.generationActionCreator = generationActionCreator;
+exports.fetchGeneration = fetchGeneration;
 },{"./types":"actions/types.js"}],"components/Generation.js":[function(require,module,exports) {
 "use strict";
 
@@ -33393,20 +33418,8 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-var fetchGeneration = function fetchGeneration() {
-  return function (dispatch) {
-    return fetch('http://localhost:3000/generation').then(function (response) {
-      return response.json();
-    }).then(function (json) {
-      dispatch((0, _generation.generationActionCreator)(json.generation));
-    }).catch(function (error) {
-      return console.error('error', error);
-    });
-  };
-};
-
 var componentConnector = (0, _reactRedux.connect)(mapStateToProps, {
-  fetchGeneration: fetchGeneration
+  fetchGeneration: _generation.fetchGeneration
 });
 
 var _default = componentConnector(Generation);
@@ -49048,7 +49061,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64344" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55148" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
