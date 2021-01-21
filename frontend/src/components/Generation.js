@@ -49,16 +49,7 @@ const mapStateToProps = state => {
   return { generation }
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    dispatchGeneration: generation => dispatch(
-      generationActionCreator(generation)
-    ),
-    fetchGeneration: () => fetchGeneration(dispatch)
-  }
-};
-
-const fetchGeneration = dispatch => {
+const fetchGeneration = () => dispatch => {
   return fetch('http://localhost:3000/generation')
   .then(response => response.json())
   .then(json => {
@@ -67,8 +58,9 @@ const fetchGeneration = dispatch => {
   .catch(error => console.error('error',error));
 }
 
-const componentConnector = connect(mapStateToProps, mapDispatchToProps);
-
-
+const componentConnector = connect(
+  mapStateToProps, 
+  { fetchGeneration }
+);
 
 export default componentConnector(Generation);
