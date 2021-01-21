@@ -48977,35 +48977,70 @@ var thunk = createThunkMiddleware();
 thunk.withExtraArgument = createThunkMiddleware;
 var _default = thunk;
 exports.default = _default;
-},{}],"reducers/index.js":[function(require,module,exports) {
+},{}],"reducers/generation.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.generationReducer = void 0;
+exports.default = void 0;
 
 var _types = require("../actions/types");
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var DEFAULT_GENERATION = {
   generationId: '',
   expiration: ''
 };
 
-var generationReducer = function generationReducer(state, action) {
-  if (action.type === _types.GENERATION_ACTION_TYPE) {
-    return {
-      generation: action.generation
-    };
-  }
+var generationReducer = function generationReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_GENERATION;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
 
-  return {
-    generation: DEFAULT_GENERATION
-  };
+  switch (action.type) {
+    case _types.GENERATION.FETCH:
+      return state;
+
+    case _types.GENERATION.FETCH_ERROR:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        message: action.message
+      });
+
+    case _types.GENERATION.FETCH_SUCCESS:
+      return _objectSpread(_objectSpread({}, state), action.generation);
+
+    default:
+      return state;
+  }
 };
 
-exports.generationReducer = generationReducer;
-},{"../actions/types":"actions/types.js"}],"index.js":[function(require,module,exports) {
+var _default = generationReducer;
+exports.default = _default;
+},{"../actions/types":"actions/types.js"}],"reducers/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _generation = _interopRequireDefault(require("./generation"));
+
+var _redux = require("redux");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = (0, _redux.combineReducers)({
+  generation: _generation.default
+});
+
+exports.default = _default;
+},{"./generation":"reducers/generation.js","redux":"../node_modules/redux/es/redux.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -49024,12 +49059,12 @@ var _reactRedux = require("react-redux");
 
 var _reduxThunk = _interopRequireDefault(require("redux-thunk"));
 
-var _reducers = require("./reducers");
+var _reducers = _interopRequireDefault(require("./reducers"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
-var store = (0, _redux.createStore)(_reducers.generationReducer, {}, composeEnhancers((0, _redux.applyMiddleware)(_reduxThunk.default)));
+var store = (0, _redux.createStore)(_reducers.default, {}, composeEnhancers((0, _redux.applyMiddleware)(_reduxThunk.default)));
 (0, _reactDom.render)( /*#__PURE__*/_react.default.createElement(_reactRedux.Provider, {
   store: store
 }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, "Dragon Stack"), /*#__PURE__*/_react.default.createElement(_Generation.default, null), /*#__PURE__*/_react.default.createElement(_Dragon.default, null))), document.getElementById("root"));
