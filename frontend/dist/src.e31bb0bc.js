@@ -48926,9 +48926,11 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _reactBootstrap = require("react-bootstrap");
 
+var _reactRedux = require("react-redux");
+
 var _DragonAvatar = _interopRequireDefault(require("./DragonAvatar"));
 
-var _dragon = _interopRequireDefault(require("../actions/dragon"));
+var _dragon = require("../actions/dragon");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49020,9 +49022,21 @@ var Dragon = /*#__PURE__*/function (_Component) {
   return Dragon;
 }(_react.Component);
 
-var _default = Dragon;
+var mapStateToProps = function mapStateToProps(state) {
+  var dragon = state.dragon;
+  return {
+    dragon: dragon
+  };
+};
+
+var componentConnector = (0, _reactRedux.connect)(mapStateToProps, {
+  fetchDragon: _dragon.fetchDragon
+});
+
+var _default = componentConnector(Dragon);
+
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","./DragonAvatar":"components/DragonAvatar.js","../actions/dragon":"actions/dragon.js"}],"../node_modules/redux-thunk/es/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","./DragonAvatar":"components/DragonAvatar.js","../actions/dragon":"actions/dragon.js"}],"../node_modules/redux-thunk/es/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49075,7 +49089,7 @@ var DEFAULT_GENERATION = {
   expiration: ''
 };
 
-var generationReducer = function generationReducer() {
+var generation = function generation() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_GENERATION;
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
@@ -49101,7 +49115,7 @@ var generationReducer = function generationReducer() {
   }
 };
 
-var _default = generationReducer;
+var _default = generation;
 exports.default = _default;
 },{"../actions/types":"actions/types.js","./fetchStates":"reducers/fetchStates.js"}],"reducers/dragon.js":[function(require,module,exports) {
 "use strict";
@@ -49128,10 +49142,10 @@ var DEFAULT_DRAGON = {
   generationId: '',
   nickname: '',
   birthdate: '',
-  traits: ['']
+  traits: []
 };
 
-var dragonReducer = function dragonReducer() {
+var dragon = function dragon() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_DRAGON;
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
@@ -49150,14 +49164,14 @@ var dragonReducer = function dragonReducer() {
     case _types.DRAGON.FETCH_SUCCESS:
       return _objectSpread(_objectSpread({}, state), {}, {
         status: _fetchStates.default.success
-      }, action.generation);
+      }, action.dragon);
 
     default:
       return state;
   }
 };
 
-var _default = dragonReducer;
+var _default = dragon;
 exports.default = _default;
 },{"../actions/types":"actions/types.js","./fetchStates":"reducers/fetchStates.js"}],"reducers/index.js":[function(require,module,exports) {
 "use strict";
@@ -49176,8 +49190,7 @@ var _dragon = _interopRequireDefault(require("./dragon"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = (0, _redux.combineReducers)({
-  generation: _generation.default
-}, {
+  generation: _generation.default,
   dragon: _dragon.default
 });
 

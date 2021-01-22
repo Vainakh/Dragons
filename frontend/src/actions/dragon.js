@@ -20,6 +20,6 @@ export const fetchDragon = () => dispatch => {
   })
   .catch(error = dispatch({
     type: DRAGON.FETCH_ERROR,
-   message: error.message
+    message: error.message
   }))
 };

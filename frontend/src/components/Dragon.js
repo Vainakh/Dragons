@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import DragonAvatar from './DragonAvatar';
-import fetchDragon from '../actions/dragon';
+import { fetchDragon } from '../actions/dragon';
 
 const DEFAULT_DRAGON = {
   dragonId: '',
@@ -45,4 +46,15 @@ class Dragon extends Component {
   }
 }
 
-export default Dragon;
+
+const mapStateToProps = state => {
+  const dragon = state.dragon;
+  return { dragon }
+};
+
+const componentConnector = connect(
+  mapStateToProps, 
+  { fetchDragon }
+);
+
+export default componentConnector(Dragon);

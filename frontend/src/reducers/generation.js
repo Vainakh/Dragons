@@ -6,7 +6,7 @@ const DEFAULT_GENERATION =  {
   expiration: ''
 };
 
-const generationReducer = (state = DEFAULT_GENERATION, action) => {
+const generation = (state = DEFAULT_GENERATION, action) => {
 switch(action.type) {
   case GENERATION.FETCH:
     return { ...state, status: fetchStates.fetching };
@@ -19,4 +19,4 @@ switch(action.type) {
   }
 };
 
-export default generationReducer;
+export default generation;
