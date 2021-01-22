@@ -33278,6 +33278,17 @@ var DRAGON = {
   FETCH_SUCCESS: 'DRAGON_FETCH_SUCCESS'
 };
 exports.DRAGON = DRAGON;
+},{}],"config.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.BACKEND = void 0;
+var BACKEND = {
+  ADDRESS: 'http://localhost:3000'
+};
+exports.BACKEND = BACKEND;
 },{}],"actions/generation.js":[function(require,module,exports) {
 "use strict";
 
@@ -33288,12 +33299,14 @@ exports.fetchGeneration = void 0;
 
 var _types = require("./types");
 
+var _config = require("../config");
+
 var fetchGeneration = function fetchGeneration() {
   return function (dispatch) {
     dispatch({
       type: _types.GENERATION.FETCH
     });
-    return fetch('http://localhost:3000/generation').then(function (response) {
+    return fetch("".concat(_config.BACKEND.ADDRESS, "/generation")).then(function (response) {
       return response.json();
     }).then(function (json) {
       if (json.type === 'error') {
@@ -33317,7 +33330,7 @@ var fetchGeneration = function fetchGeneration() {
 };
 
 exports.fetchGeneration = fetchGeneration;
-},{"./types":"actions/types.js"}],"reducers/fetchStates.js":[function(require,module,exports) {
+},{"./types":"actions/types.js","../config":"config.js"}],"reducers/fetchStates.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -48887,12 +48900,14 @@ exports.fetchDragon = void 0;
 
 var _types = require("./types");
 
+var _config = require("../config");
+
 var fetchDragon = function fetchDragon() {
   return function (dispatch) {
     dispatch({
       type: _types.DRAGON.FETCH
     });
-    return fetch('http://localhost:3000/dragon').then(function (response) {
+    return fetch("".concat(_config.BACKEND.ADDRESS, "/dragon/new")).then(function (response) {
       return response.json();
     }).then(function (json) {
       if (json.type === 'error') {
@@ -48906,15 +48921,17 @@ var fetchDragon = function fetchDragon() {
           dragon: json.dragon
         });
       }
-    }).catch(error = dispatch({
-      type: _types.DRAGON.FETCH_ERROR,
-      message: error.message
-    }));
+    }).catch(function (error) {
+      return dispatch({
+        type: _types.DRAGON.FETCH_ERROR,
+        message: error.message
+      });
+    });
   };
 };
 
 exports.fetchDragon = fetchDragon;
-},{"./types":"actions/types.js"}],"components/Dragon.js":[function(require,module,exports) {
+},{"./types":"actions/types.js","../config":"config.js"}],"components/Dragon.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -48924,9 +48941,9 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _reactBootstrap = require("react-bootstrap");
-
 var _reactRedux = require("react-redux");
+
+var _reactBootstrap = require("react-bootstrap");
 
 var _DragonAvatar = _interopRequireDefault(require("./DragonAvatar"));
 
@@ -48960,61 +48977,24 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var DEFAULT_DRAGON = {
-  dragonId: '',
-  generationId: '',
-  nickname: '',
-  birthdate: '',
-  traits: ['']
-};
-
 var Dragon = /*#__PURE__*/function (_Component) {
   _inherits(Dragon, _Component);
 
   var _super = _createSuper(Dragon);
 
   function Dragon() {
-    var _temp, _this;
-
     _classCallCheck(this, Dragon);
 
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _possibleConstructorReturn(_this, (_temp = _this = _super.call.apply(_super, [this].concat(args)), _this.state = {
-      dragon: DEFAULT_DRAGON
-    }, _this.fetchDragon = function () {
-      fetch('http://localhost:3000/dragon/new').then(function (response) {
-        return response.json();
-      }).then(function (json) {
-        return _this.setState({
-          dragon: json.dragon
-        });
-      }).catch(function (error) {
-        return console.error('error', error);
-      });
-    }, _temp));
+    return _super.apply(this, arguments);
   }
 
   _createClass(Dragon, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.fetchDragon();
-    }
-  }, {
     key: "render",
     value: function render() {
-      var dragon = this.props.dragon; // if (dragon.status === fetchStates.error) {
-      //   return (
-      //     <div>{ dragon.message }</div>
-      //     );
-      // }
-
       return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-        onClick: this.fetchDragon
+        onClick: this.props.fetchDragon
       }, "New Dragon"), /*#__PURE__*/_react.default.createElement(_DragonAvatar.default, {
-        dragon: this.state.dragon
+        dragon: this.props.dragon
       }));
     }
   }]);
@@ -49022,21 +49002,19 @@ var Dragon = /*#__PURE__*/function (_Component) {
   return Dragon;
 }(_react.Component);
 
-var mapStateToProps = function mapStateToProps(state) {
-  var dragon = state.dragon;
+;
+
+var _default = (0, _reactRedux.connect)(function (_ref) {
+  var dragon = _ref.dragon;
   return {
     dragon: dragon
   };
-};
-
-var componentConnector = (0, _reactRedux.connect)(mapStateToProps, {
+}, {
   fetchDragon: _dragon.fetchDragon
-});
-
-var _default = componentConnector(Dragon);
+})(Dragon);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-redux":"../node_modules/react-redux/es/index.js","./DragonAvatar":"components/DragonAvatar.js","../actions/dragon":"actions/dragon.js"}],"../node_modules/redux-thunk/es/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","./DragonAvatar":"components/DragonAvatar.js","../actions/dragon":"actions/dragon.js"}],"../node_modules/redux-thunk/es/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
