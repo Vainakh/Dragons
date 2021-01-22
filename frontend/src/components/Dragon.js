@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import DragonAvatar from './DragonAvatar';
+import fetchDragon from '../actions/dragon';
 
 const DEFAULT_DRAGON = {
   dragonId: '',
@@ -27,6 +28,14 @@ class Dragon extends Component {
   }
 
   render() {
+    const { dragon } = this.props;
+
+    // if (dragon.status === fetchStates.error) {
+    //   return (
+    //     <div>{ dragon.message }</div>
+    //     );
+    // }
+
     return (
       <div>
         <Button onClick={this.fetchDragon}>New Dragon</Button>
