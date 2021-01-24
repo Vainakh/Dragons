@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const AccountTable = require('../account/table.js');
+const Session = require('../account/session');
 const { hash } = require('../account/helper');
 const { setSession } = require('./helper');
 
@@ -23,9 +24,7 @@ router.post('/signup', (req, res, next) => {
     .then(() => {
       return setSession({ username, res })
     })
-    .then(({ message})  => {
-      res.json({ message });
-    })
+    .then(({ message})  => res.json({ message }))
     .catch(error => next(error));
   });
 
@@ -46,6 +45,20 @@ router.post('/signup', (req, res, next) => {
       }
     })
     .then(({ message}) => res.json({ message }))
+    .catch(error => next(error));
+  });
+
+  router.get('/logout', (req, res, next) => {
+    const { username } = Session.parse(req.cookies.sessionString);
+
+    AccountTable.updateSessionId({
+      sessionId: null,
+      usernameHash: hash(username)
+    })
+    .then(() => {
+      res.clearCookie('sessionString');
+      res.json({ message: 'Successful logout'})
+    })
     .catch(error => next(error));
   });
 

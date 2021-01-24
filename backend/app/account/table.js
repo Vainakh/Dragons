@@ -24,7 +24,7 @@ class AccountTable {
         (error, response) => {
           if (error) return reject(error);
 
-          resolve({ account: response.rows[0]})
+          resolve({ account: response.rows[0] })
         } 
       )
     });
