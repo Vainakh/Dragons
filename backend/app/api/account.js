@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const AccountTable = require('../account/table.js');
 const { hash } = require('../account/helper');
-const Session  = require('../account/session');
+const { setSession } = require('./helper');
 
 const router = new Router();
 
@@ -21,14 +21,7 @@ router.post('/signup', (req, res, next) => {
         }
       })
     .then(() => {
-      const session = new Session({ username });
-      const sessionString = session.toString();
-
-      res.cookie('sessionString', sessionString, {
-        expire: Date.now() + 3600000,
-        httpOnly : true
-        // secure: true // use with hhtps
-      });
+      setSession({ username, res })
       res.json({ message: 'success' });
     })
     .catch(error => next(error));
