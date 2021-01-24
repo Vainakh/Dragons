@@ -35,7 +35,9 @@ router.post('/signup', (req, res, next) => {
     AccountTable.getAccount({ usernameHash: hash(username) })
     .then(({ account }) => {
       if (account && account.passwordHash === hash(password)) {
-        return setSession({ username, res});
+        const { sessionId } = account;
+        return setSession({ username, res, sessionId });
+
       }else{
         const error = new Error('Incorrect username/password');
         error.statusCode = 409;
