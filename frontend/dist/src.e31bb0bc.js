@@ -49248,6 +49248,8 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _reactBootstrap = require("react-bootstrap");
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -49280,15 +49282,32 @@ var AuthForm = /*#__PURE__*/function (_Component) {
   var _super = _createSuper(AuthForm);
 
   function AuthForm() {
+    var _temp, _this;
+
     _classCallCheck(this, AuthForm);
 
-    return _super.apply(this, arguments);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _possibleConstructorReturn(_this, (_temp = _this = _super.call.apply(_super, [this].concat(args)), _this.state = {
+      username: '',
+      passoword: ''
+    }, _temp));
   }
 
   _createClass(AuthForm, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/_react.default.createElement("div", null, "Auth Form");
+      return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, "Dragon Stack"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        type: "text",
+        value: this.state.username,
+        placeholder: "username"
+      })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        type: "password",
+        value: this.state.password,
+        placeholder: "password"
+      })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, null, "Log In"), /*#__PURE__*/_react.default.createElement("span", null, "or"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, null, "Sign Up")));
     }
   }]);
 
@@ -49297,7 +49316,7 @@ var AuthForm = /*#__PURE__*/function (_Component) {
 
 var _default = AuthForm;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"components/Root.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js"}],"components/Root.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49353,7 +49372,7 @@ var Root = /*#__PURE__*/function (_Component) {
   _createClass(Root, [{
     key: "render",
     value: function render() {
-      return true ? /*#__PURE__*/_react.default.createElement(_Home.default, null) : /*#__PURE__*/_react.default.createElement(_AuthForm.default, null);
+      return false ? /*#__PURE__*/_react.default.createElement(_Home.default, null) : /*#__PURE__*/_react.default.createElement(_AuthForm.default, null);
     }
   }]);
 
@@ -49417,7 +49436,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53917" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62766" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
