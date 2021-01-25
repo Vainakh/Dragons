@@ -30,7 +30,7 @@ export const signup = ({ username, password }) => fetchFromAccount({
 }); 
   
   export const logout = ({ username, password }) => fetchFromAccount({
-    endpoint: 'signup',
+    endpoint: 'logout',
     options: { credentials: 'include' },
     SUCCESS_TYPE: ACCOUNT.FETCH_LOGOUT_SUCCESS
   });

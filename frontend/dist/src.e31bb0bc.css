@@ -34,4 +34,9 @@ body {
   z-index: 0;
 }
 
+.logout-button {
+  position: absolute;
+  right: 30px;
+}
+
 /*# sourceMappingURL=/src.e31bb0bc.css.map */
