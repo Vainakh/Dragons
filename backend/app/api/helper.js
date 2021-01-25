@@ -20,7 +20,7 @@ const setSession = ({ username, res, sessionId }) => {
       usernameHash: hash(username)
     })
     .then(() => {
-      console.log(sessionString)
+      
       setSessionCookie({ sessionString, res })
       resolve({ message:'session created' });
     })
