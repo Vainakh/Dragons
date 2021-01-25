@@ -49250,7 +49250,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.logout = exports.signup = void 0;
+exports.logout = exports.login = exports.signup = void 0;
 
 var _types = require("./types");
 
@@ -49314,9 +49314,31 @@ var signup = function signup(_ref2) {
 
 exports.signup = signup;
 
-var logout = function logout(_ref3) {
+var login = function login(_ref3) {
   var username = _ref3.username,
       password = _ref3.password;
+  return fetchFromAccount({
+    endpoint: 'login',
+    options: {
+      method: 'POST',
+      body: JSON.stringify({
+        username: username,
+        password: password
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    },
+    SUCCESS_TYPE: _types.ACCOUNT.FETCH_SUCCESS
+  });
+};
+
+exports.login = login;
+
+var logout = function logout(_ref4) {
+  var username = _ref4.username,
+      password = _ref4.password;
   return fetchFromAccount({
     endpoint: 'logout',
     options: {
@@ -49485,7 +49507,14 @@ var AuthForm = /*#__PURE__*/function (_Component) {
         password: password
       });
     }, _this.login = function () {
-      console.log('this.state', _this.state);
+      var _this$state2 = _this.state,
+          username = _this$state2.username,
+          password = _this$state2.password;
+
+      _this.props.login({
+        username: username,
+        password: password
+      });
     }, _temp));
   }
 
@@ -49528,7 +49557,8 @@ var _default = (0, _reactRedux.connect)(function (_ref) {
     account: account
   };
 }, {
-  signup: _account.signup
+  signup: _account.signup,
+  login: _account.login
 })(AuthForm);
 
 exports.default = _default;
@@ -49661,7 +49691,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65146" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51085" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
