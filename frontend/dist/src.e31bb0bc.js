@@ -33365,7 +33365,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DRAGON = exports.GENERATION = void 0;
+exports.ACCOUNT = exports.DRAGON = exports.GENERATION = void 0;
 var GENERATION = {
   FETCH: 'GENERATION_FETCH',
   FETCH_ERROR: 'GENERATION_FETCH_ERROR',
@@ -33378,6 +33378,12 @@ var DRAGON = {
   FETCH_SUCCESS: 'DRAGON_FETCH_SUCCESS'
 };
 exports.DRAGON = DRAGON;
+var ACCOUNT = {
+  FETCH: 'ACCOUNT_FETCH',
+  FETCH_ERROR: 'ACCOUNT_FETCH_ERROR',
+  FETCH_SUCCESS: 'ACCOUNT_FETCH_SUCCESS'
+};
+exports.ACCOUNT = ACCOUNT;
 },{}],"reducers/fetchStates.js":[function(require,module,exports) {
 "use strict";
 
@@ -33444,6 +33450,60 @@ var generation = function generation() {
 
 var _default = generation;
 exports.default = _default;
+},{"../actions/types":"actions/types.js","./fetchStates":"reducers/fetchStates.js"}],"reducers/account.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _types = require("../actions/types");
+
+var _fetchStates = _interopRequireDefault(require("./fetchStates"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var DEFAULT_ACCOUNT = {
+  loggedIn: false
+};
+
+var account = function account() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_ACCOUNT;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _types.ACCOUNT.FETCH:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        status: _fetchStates.default.fetching
+      });
+
+    case _types.ACCOUNT.FETCH_ERROR:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        status: _fetchStates.default.error,
+        message: action.message
+      });
+
+    case _types.ACCOUNT.FETCH_SUCCESS:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        status: _fetchStates.default.success,
+        message: action.message,
+        loggedIn: true
+      });
+
+    default:
+      return state;
+  }
+};
+
+var _default = account;
+exports.default = _default;
 },{"../actions/types":"actions/types.js","./fetchStates":"reducers/fetchStates.js"}],"reducers/dragon.js":[function(require,module,exports) {
 "use strict";
 
@@ -33508,21 +33568,24 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _redux = require("redux");
+
 var _generation = _interopRequireDefault(require("./generation"));
 
-var _redux = require("redux");
+var _account = _interopRequireDefault(require("./account"));
 
 var _dragon = _interopRequireDefault(require("./dragon"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = (0, _redux.combineReducers)({
-  generation: _generation.default,
-  dragon: _dragon.default
+  account: _account.default,
+  dragon: _dragon.default,
+  generation: _generation.default
 });
 
 exports.default = _default;
-},{"./generation":"reducers/generation.js","redux":"../node_modules/redux/es/redux.js","./dragon":"reducers/dragon.js"}],"config.js":[function(require,module,exports) {
+},{"redux":"../node_modules/redux/es/redux.js","./generation":"reducers/generation.js","./account":"reducers/account.js","./dragon":"reducers/dragon.js"}],"config.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49293,6 +49356,18 @@ var AuthForm = /*#__PURE__*/function (_Component) {
     return _possibleConstructorReturn(_this, (_temp = _this = _super.call.apply(_super, [this].concat(args)), _this.state = {
       username: '',
       passoword: ''
+    }, _this.updateUsername = function (event) {
+      _this.setState({
+        username: event.target.value
+      });
+    }, _this.updatePassword = function (event) {
+      _this.setState({
+        password: event.target.value
+      });
+    }, _this.signup = function () {
+      console.log('this.state', _this.state);
+    }, _this.login = function () {
+      console.log('this.state', _this.state);
     }, _temp));
   }
 
@@ -49302,12 +49377,18 @@ var AuthForm = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, "Dragon Stack"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         type: "text",
         value: this.state.username,
-        placeholder: "username"
+        placeholder: "username",
+        onChange: this.updateUsername
       })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         type: "password",
         value: this.state.password,
-        placeholder: "password"
-      })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, null, "Log In"), /*#__PURE__*/_react.default.createElement("span", null, "or"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, null, "Sign Up")));
+        placeholder: "password",
+        onChange: this.updatePassword
+      })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        onClick: this.login
+      }, "Log In"), /*#__PURE__*/_react.default.createElement("span", null, "or"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        onClick: this.signup
+      }, "Sign Up")));
     }
   }]);
 
@@ -49436,7 +49517,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62766" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63350" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
