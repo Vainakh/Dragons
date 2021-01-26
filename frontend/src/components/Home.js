@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import Generation from './Generation';
 import Dragon from './Dragon';
 import { logout } from '../actions/account';
+import { Next } from 'react-bootstrap/esm/PageItem';
 
 class Home extends Component {
   render() {

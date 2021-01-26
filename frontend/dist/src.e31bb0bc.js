@@ -33365,7 +33365,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ACCOUNT = exports.DRAGON = exports.GENERATION = void 0;
+exports.ACCOUNT_DRAGONS = exports.ACCOUNT = exports.DRAGON = exports.GENERATION = void 0;
 var GENERATION = {
   FETCH: 'GENERATION_FETCH',
   FETCH_ERROR: 'GENERATION_FETCH_ERROR',
@@ -33386,6 +33386,12 @@ var ACCOUNT = {
   FETCH_AUTHENTICATED_SUCCESS: 'ACCOUNT_FETCH_AUTHENTICATED_SUCCESS'
 };
 exports.ACCOUNT = ACCOUNT;
+var ACCOUNT_DRAGONS = {
+  FETCH: 'ACCOUNT_DRAGON_FETCH',
+  FETCH_ERROR: 'ACCOUNT_DRAGON_FETCH_ERROR',
+  FETCH_SUCCESS: 'ACCOUNT_DRAGON_FETCH_SUCCESS'
+};
+exports.ACCOUNT_DRAGONS = ACCOUNT_DRAGONS;
 },{}],"reducers/fetchStates.js":[function(require,module,exports) {
 "use strict";
 
@@ -49145,7 +49151,9 @@ var fetchDragon = function fetchDragon() {
     dispatch({
       type: _types.DRAGON.FETCH
     });
-    return fetch("".concat(_config.BACKEND.ADDRESS, "/dragon/new")).then(function (response) {
+    return fetch("".concat(_config.BACKEND.ADDRESS, "/dragon/new"), {
+      credentials: 'include'
+    }).then(function (response) {
       return response.json();
     }).then(function (json) {
       if (json.type === 'error') {
@@ -49258,7 +49266,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchAuthenticated = exports.logout = exports.login = exports.signup = void 0;
+exports.fetchAuthenticated = exports.logout = exports.login = exports.signup = exports.fetchFromAccount = void 0;
 
 var _types = require("./types");
 
@@ -49273,6 +49281,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var fetchFromAccount = function fetchFromAccount(_ref) {
   var endpoint = _ref.endpoint,
       options = _ref.options,
+      FETCH_TYPE = _ref.FETCH_TYPE,
+      ERROR_TYPE = _ref.ERROR_TYPE,
       SUCCESS_TYPE = _ref.SUCCESS_TYPE;
   return function (dispatch) {
     dispatch({
@@ -49283,7 +49293,7 @@ var fetchFromAccount = function fetchFromAccount(_ref) {
     }).then(function (json) {
       if (json.type === 'error') {
         dispatch({
-          type: _types.ACCOUNT.FETCH_ERROR,
+          type: ERROR_TYPE,
           message: json.message
         });
       } else {
@@ -49293,12 +49303,14 @@ var fetchFromAccount = function fetchFromAccount(_ref) {
       }
     }).catch(function (error) {
       return dispatch({
-        type: _types.ACCOUNT.FETCH_ERROR,
+        type: ERROR_TYPE,
         message: error.message
       });
     });
   };
 };
+
+exports.fetchFromAccount = fetchFromAccount;
 
 var signup = function signup(_ref2) {
   var username = _ref2.username,
@@ -49316,6 +49328,8 @@ var signup = function signup(_ref2) {
       },
       credentials: 'include'
     },
+    FETCH_TYPE: _types.ACCOUNT.FETCH,
+    ERROR_TYPE: _types.ACCOUNT.FETCH_ERROR,
     SUCCESS_TYPE: _types.ACCOUNT.FETCH_SUCCESS
   });
 };
@@ -49338,6 +49352,8 @@ var login = function login(_ref3) {
       },
       credentials: 'include'
     },
+    FETCH_TYPE: _types.ACCOUNT.FETCH,
+    ERROR_TYPE: _types.ACCOUNT.FETCH_ERROR,
     SUCCESS_TYPE: _types.ACCOUNT.FETCH_SUCCESS
   });
 };
@@ -49352,6 +49368,8 @@ var logout = function logout(_ref4) {
     options: {
       credentials: 'include'
     },
+    FETCH_TYPE: _types.ACCOUNT.FETCH,
+    ERROR_TYPE: _types.ACCOUNT.FETCH_ERROR,
     SUCCESS_TYPE: _types.ACCOUNT.FETCH_LOGOUT_SUCCESS
   });
 };
@@ -49364,6 +49382,8 @@ var fetchAuthenticated = function fetchAuthenticated() {
     options: {
       credentials: 'include'
     },
+    FETCH_TYPE: _types.ACCOUNT.FETCH,
+    ERROR_TYPE: _types.ACCOUNT.FETCH_ERROR,
     SUCCESS_TYPE: _types.ACCOUNT.FETCH_AUTHENTICATED_SUCCESS
   });
 };
@@ -49388,6 +49408,8 @@ var _Generation = _interopRequireDefault(require("./Generation"));
 var _Dragon = _interopRequireDefault(require("./Dragon"));
 
 var _account = require("../actions/account");
+
+var _PageItem = require("react-bootstrap/esm/PageItem");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49446,7 +49468,7 @@ var _default = (0, _reactRedux.connect)(null, {
 })(Home);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","./Generation":"components/Generation.js","./Dragon":"components/Dragon.js","../actions/account":"actions/account.js"}],"components/AuthForm.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","./Generation":"components/Generation.js","./Dragon":"components/Dragon.js","../actions/account":"actions/account.js","react-bootstrap/esm/PageItem":"../node_modules/react-bootstrap/esm/PageItem.js"}],"components/AuthForm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49724,7 +49746,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55632" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61651" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
