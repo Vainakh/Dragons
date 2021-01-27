@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import Generation from './Generation';
 import Dragon from './Dragon';
-import AccountDragons from './AccountDragons';
 import { logout } from '../actions/account';
 
 
@@ -18,8 +17,6 @@ class Home extends Component {
         <h2>Dragon Stack</h2>
         <Generation/>
         <Dragon/>
-        <br/>
-        <AccountDragons />
       </div>
     );
   }
