@@ -54057,11 +54057,15 @@ var _reactRedux = require("react-redux");
 
 var _reactBootstrap = require("react-bootstrap");
 
+var _reactRouterDom = require("react-router-dom");
+
 var _Generation = _interopRequireDefault(require("./Generation"));
 
 var _Dragon = _interopRequireDefault(require("./Dragon"));
 
 var _account = require("../actions/account");
+
+var _history = require("history");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54091,6 +54095,8 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+var history = (0, _history.createBrowserHistory)();
+
 var Home = /*#__PURE__*/function (_Component) {
   _inherits(Home, _Component);
 
@@ -54108,7 +54114,12 @@ var Home = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         onClick: this.props.logout,
         className: "logout-button"
-      }, "Log Out"), /*#__PURE__*/_react.default.createElement("h2", null, "Dragon Stack"), /*#__PURE__*/_react.default.createElement(_Generation.default, null), /*#__PURE__*/_react.default.createElement(_Dragon.default, null));
+      }, "Log Out"), /*#__PURE__*/_react.default.createElement("h2", null, "Dragon Stack"), /*#__PURE__*/_react.default.createElement(_Generation.default, null), /*#__PURE__*/_react.default.createElement(_Dragon.default, null), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: "/account-dragons",
+        onClick: function onClick() {
+          window.location.href = '/account-dragons';
+        }
+      }, "Account Dragons"));
     }
   }]);
 
@@ -54120,7 +54131,7 @@ var _default = (0, _reactRedux.connect)(null, {
 })(Home);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","./Generation":"components/Generation.js","./Dragon":"components/Dragon.js","../actions/account":"actions/account.js"}],"components/AuthForm.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./Generation":"components/Generation.js","./Dragon":"components/Dragon.js","../actions/account":"actions/account.js","history":"../node_modules/history/index.js"}],"components/AuthForm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54414,7 +54425,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57169" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64764" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
