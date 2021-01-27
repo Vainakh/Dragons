@@ -38566,6 +38566,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _reactRedux = require("react-redux");
 
+var _reactRouterDom = require("react-router-dom");
+
 var _accountDragons = require("../actions/accountDragons");
 
 var _AccountDragonRow = _interopRequireDefault(require("./AccountDragonRow"));
@@ -38623,7 +38625,12 @@ var AccountDragons = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/_react.default.createElement(_AccountDragonRow.default, {
           dragon: dragon
         }), /*#__PURE__*/_react.default.createElement("hr", null));
-      }));
+      }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: "/",
+        onClick: function onClick() {
+          return window.location.href = '/';
+        }
+      }, "Home"));
     }
   }]);
 
@@ -38640,7 +38647,7 @@ var _default = (0, _reactRedux.connect)(function (_ref) {
 })(AccountDragons);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/accountDragons":"actions/accountDragons.js","./AccountDragonRow":"components/AccountDragonRow.js"}],"../node_modules/classnames/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../actions/accountDragons":"actions/accountDragons.js","./AccountDragonRow":"components/AccountDragonRow.js"}],"../node_modules/classnames/index.js":[function(require,module,exports) {
 var define;
 /*!
   Copyright (c) 2017 Jed Watson.
@@ -54119,7 +54126,9 @@ var Home = /*#__PURE__*/function (_Component) {
         onClick: function onClick() {
           window.location.href = '/account-dragons';
         }
-      }, "Account Dragons"));
+      }, "Account Dragons"), /*#__PURE__*/_react.default.createElement("a", {
+        href: "/account-dragons"
+      }, "Account Dragons - anchor tag"));
     }
   }]);
 
@@ -54425,7 +54434,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64764" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51541" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
