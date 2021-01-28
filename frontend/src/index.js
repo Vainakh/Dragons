@@ -29,6 +29,16 @@ const RedirectToAccountDragons = () => {
   )
 };
 
+const AuthRoute = (props) => {
+  if (!store.getState().account.loggedIn) {
+    return <Redirect to={{ pathname: '/account-dragons' }}
+    onChange={window.location.href='/account-dragons'}/>
+  }
+  const { component, path } = props;
+
+  return <Route path={path} component={component}/>
+};
+
 store.dispatch(fetchAuthenticated())
 .then(() => {
     render(
@@ -41,7 +51,7 @@ store.dispatch(fetchAuthenticated())
           <Route 
           path='/account-dragons' 
           component={AccountDragons} />
-          <Route
+          <AuthRoute
            path='/redirect-to-account-dragons'
            component={RedirectToAccountDragons}
            />

@@ -54400,6 +54400,24 @@ var RedirectToAccountDragons = function RedirectToAccountDragons() {
   });
 };
 
+var AuthRoute = function AuthRoute(props) {
+  if (!store.getState().account.loggedIn) {
+    return /*#__PURE__*/_react.default.createElement(_reactRouterDom.Redirect, {
+      to: {
+        pathname: '/account-dragons'
+      },
+      onChange: window.location.href = '/account-dragons'
+    });
+  }
+
+  var component = props.component,
+      path = props.path;
+  return /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: path,
+    component: component
+  });
+};
+
 store.dispatch((0, _account.fetchAuthenticated)()).then(function () {
   (0, _reactDom.render)( /*#__PURE__*/_react.default.createElement(_reactRedux.Provider, {
     store: store
@@ -54412,7 +54430,7 @@ store.dispatch((0, _account.fetchAuthenticated)()).then(function () {
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/account-dragons",
     component: _AccountDragons.default
-  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+  }), /*#__PURE__*/_react.default.createElement(AuthRoute, {
     path: "/redirect-to-account-dragons",
     component: RedirectToAccountDragons
   })))), document.getElementById("root"));
@@ -54445,7 +54463,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61609" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64675" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
