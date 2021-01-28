@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import './index.css';
 import  { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
-import { Router, Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
@@ -20,16 +20,13 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 
-class RedirectToAccountDragons extends Component {
-  
-  render() {
-    return (
-      <Redirect 
-        to={{ pathname: '/account-dragons' }}
-        onChange={window.location.href='/account-dragons'}
-      />
-    )
-  }
+const RedirectToAccountDragons = () => {
+  return (
+    <Redirect 
+      to={{ pathname: '/account-dragons' }}
+      onChange={window.location.href='/account-dragons'}
+    />
+  )
 };
 
 store.dispatch(fetchAuthenticated())

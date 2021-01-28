@@ -23,9 +23,7 @@ class Home extends Component {
         <Generation/>
         <Dragon/>
         <hr/>
-        
         <Link to='/account-dragons' onClick={() => {window.location.href='/account-dragons'}} >Account Dragons</Link>
-        <a href='/account-dragons'>Account Dragons - anchor tag</a>
       </div>
     );
   }
