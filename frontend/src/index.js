@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
 import './index.css';
 import  { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
-import { Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
@@ -20,16 +20,36 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 
+class RedirectToAccountDragons extends Component {
+  
+  render() {
+    return (
+      <Redirect 
+        to={{ pathname: '/account-dragons' }}
+        onChange={window.location.href='/account-dragons'}
+      />
+    )
+  }
+};
+
 store.dispatch(fetchAuthenticated())
 .then(() => {
     render(
     <Provider store={store}>
-      <Router history={history}>
+      <Router 
+      history={history}
+      >
         <Switch>
           <Route exact path='/' component={Root}/> 
-          <Route path='/account-dragons' component={AccountDragons} />
+          <Route 
+          path='/account-dragons' 
+          component={AccountDragons} />
+          <Route
+           path='/redirect-to-account-dragons'
+           component={RedirectToAccountDragons}
+           />
         </Switch>
-      </Router>
+      </Router> 
     </Provider>,
     document.getElementById("root")
   );
