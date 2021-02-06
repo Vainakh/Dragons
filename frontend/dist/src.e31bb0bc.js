@@ -53616,6 +53616,8 @@ var _reactBootstrap = require("react-bootstrap");
 
 var _DragonAvatar = _interopRequireDefault(require("./DragonAvatar"));
 
+var _config = require("../config");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -53665,6 +53667,27 @@ var AccountDragonRow = /*#__PURE__*/function (_Component) {
       _this.setState({
         nickname: event.target.value
       });
+    }, _this.save = function () {
+      fetch("".concat(_config.BACKEND.ADDRESS, "/dragon/update"), {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          dragonId: _this.props.dragon.dragonId,
+          nickname: _this.state.nickname
+        })
+      }).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        if (json.type === "error") {
+          alert(json.message);
+        } else {
+          _this.toggleEdit();
+        }
+      }).catch(function (error) {
+        return alert(error.message);
+      });
     }, _this.toggleEdit = function () {
       _this.setState({
         edit: !_this.state.edit
@@ -53687,7 +53710,9 @@ var AccountDragonRow = /*#__PURE__*/function (_Component) {
   }, {
     key: "SaveButton",
     get: function get() {
-      return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, null, "Save");
+      return /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        onClick: this.save
+      }, "Save");
     }
   }, {
     key: "EditButton",
@@ -53703,7 +53728,7 @@ var AccountDragonRow = /*#__PURE__*/function (_Component) {
 
 var _default = AccountDragonRow;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","./DragonAvatar":"components/DragonAvatar.js"}],"components/AccountDragons.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","./DragonAvatar":"components/DragonAvatar.js","../config":"config.js"}],"components/AccountDragons.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54499,7 +54524,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60263" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51109" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
