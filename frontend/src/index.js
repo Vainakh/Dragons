@@ -10,6 +10,7 @@ import rootReducer from './reducers';
 import AccountDragons from './components/AccountDragons';
 import Root from './components/Root';
 import { fetchAuthenticated } from './actions/account';
+import { fetchPublicDragons } from './actions/publicDragons';
 
 const history = createBrowserHistory();
 
@@ -19,6 +20,8 @@ const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
+
+store.dispatch(fetchPublicDragons());
 
 const RedirectToAccountDragons = () => {
   return (

@@ -37821,12 +37821,18 @@ var ACCOUNT_INFO = {
   FETCH_ERROR: 'ACCOUNT_INFO_FETCH_ERROR',
   FETCH_SUCCESS: 'ACCOUNT_INFO_FETCH_SUCCESS'
 };
+var PUBLIC_DRAGONS = {
+  FETCH: 'PUBLIC_DRAGONS_FETCH',
+  FETCH_ERROR: 'PUBLIC_DRAGONS_FETCH_ERROR',
+  FETCH_SUCCESS: 'PUBLIC_DRAGONS_FETCH_SUCCESS'
+};
 module.exports = {
   GENERATION: GENERATION,
   DRAGON: DRAGON,
   ACCOUNT: ACCOUNT,
   ACCOUNT_DRAGONS: ACCOUNT_DRAGONS,
-  ACCOUNT_INFO: ACCOUNT_INFO
+  ACCOUNT_INFO: ACCOUNT_INFO,
+  PUBLIC_DRAGONS: PUBLIC_DRAGONS
 };
 },{}],"reducers/fetchStates.js":[function(require,module,exports) {
 module.exports = {
@@ -38105,6 +38111,59 @@ var accountInfo = function accountInfo() {
 
 var _default = accountInfo;
 exports.default = _default;
+},{"../actions/types":"actions/types.js","./fetchStates":"reducers/fetchStates.js"}],"reducers/publicDragons.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _types = require("../actions/types");
+
+var _fetchStates = _interopRequireDefault(require("./fetchStates"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var DEFAULT_PUBLIC_DRAGONS = {
+  dragons: []
+};
+
+var publicDragons = function publicDragons() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_PUBLIC_DRAGONS;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _types.PUBLIC_DRAGONS.FETCH:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        status: _fetchStates.default.fetching
+      });
+
+    case _types.PUBLIC_DRAGONS.FETCH_ERROR:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        status: _fetchStates.default.error,
+        message: action.message
+      });
+
+    case _types.PUBLIC_DRAGONS.FETCH_SUCCESS:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        status: _fetchStates.default.success,
+        dragons: action.dragons
+      });
+
+    default:
+      return state;
+  }
+};
+
+var _default = publicDragons;
+exports.default = _default;
 },{"../actions/types":"actions/types.js","./fetchStates":"reducers/fetchStates.js"}],"reducers/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -38125,6 +38184,8 @@ var _accountDragons = _interopRequireDefault(require("./accountDragons"));
 
 var _accountInfo = _interopRequireDefault(require("./accountInfo"));
 
+var _publicDragons = _interopRequireDefault(require("./publicDragons"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = (0, _redux.combineReducers)({
@@ -38132,11 +38193,12 @@ var _default = (0, _redux.combineReducers)({
   dragon: _dragon.default,
   generation: _generation.default,
   accountDragons: _accountDragons.default,
-  accountInfo: _accountInfo.default
+  accountInfo: _accountInfo.default,
+  publicDragons: _publicDragons.default
 });
 
 exports.default = _default;
-},{"redux":"../node_modules/redux/es/redux.js","./generation":"reducers/generation.js","./account":"reducers/account.js","./dragon":"reducers/dragon.js","./accountDragons":"reducers/accountDragons.js","./accountInfo":"reducers/accountInfo.js"}],"config.js":[function(require,module,exports) {
+},{"redux":"../node_modules/redux/es/redux.js","./generation":"reducers/generation.js","./account":"reducers/account.js","./dragon":"reducers/dragon.js","./accountDragons":"reducers/accountDragons.js","./accountInfo":"reducers/accountInfo.js","./publicDragons":"reducers/publicDragons.js"}],"config.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54582,7 +54644,49 @@ var _default = (0, _reactRedux.connect)(function (_ref) {
 }, null)(Root);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","./Home":"components/Home.js","./AuthForm":"components/AuthForm.js"}],"index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","./Home":"components/Home.js","./AuthForm":"components/AuthForm.js"}],"actions/publicDragons.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fetchPublicDragons = void 0;
+
+var _types = require("./types");
+
+var _config = require("../config");
+
+// import dragon from '../reducers/dragon';
+var fetchPublicDragons = function fetchPublicDragons() {
+  return function (dispatch) {
+    dispatch({
+      type: _types.PUBLIC_DRAGONS.FETCH
+    });
+    return fetch("".concat(_config.BACKEND.ADDRESS, "/dragon/public-dragons")).then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      if (json.type === 'error') {
+        dispatch({
+          type: _types.PUBLIC_DRAGONS.FETCH_ERROR,
+          message: json.message
+        });
+      } else {
+        dispatch({
+          type: _types.PUBLIC_DRAGONS.FETCH_SUCCESS,
+          dragons: json.dragons
+        });
+      }
+    }).catch(function (error) {
+      return dispatch({
+        type: _types.PUBLIC_DRAGONS.FETCH_ERROR,
+        message: error.message
+      });
+    });
+  };
+};
+
+exports.fetchPublicDragons = fetchPublicDragons;
+},{"./types":"actions/types.js","../config":"config.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -54609,11 +54713,14 @@ var _Root = _interopRequireDefault(require("./components/Root"));
 
 var _account = require("./actions/account");
 
+var _publicDragons = require("./actions/publicDragons");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var history = (0, _history.createBrowserHistory)();
 var composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
 var store = (0, _redux.createStore)(_reducers.default, composeEnhancers((0, _redux.applyMiddleware)(_reduxThunk.default)));
+store.dispatch((0, _publicDragons.fetchPublicDragons)());
 
 var RedirectToAccountDragons = function RedirectToAccountDragons() {
   return /*#__PURE__*/_react.default.createElement(_reactRouterDom.Redirect, {
@@ -54659,7 +54766,7 @@ store.dispatch((0, _account.fetchAuthenticated)()).then(function () {
     component: RedirectToAccountDragons
   })))), document.getElementById("root"));
 });
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./index.css":"index.css","redux":"../node_modules/redux/es/redux.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","history":"../node_modules/history/index.js","redux-thunk":"../node_modules/redux-thunk/es/index.js","./reducers":"reducers/index.js","./components/AccountDragons":"components/AccountDragons.js","./components/Root":"components/Root.js","./actions/account":"actions/account.js"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./index.css":"index.css","redux":"../node_modules/redux/es/redux.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","history":"../node_modules/history/index.js","redux-thunk":"../node_modules/redux-thunk/es/index.js","./reducers":"reducers/index.js","./components/AccountDragons":"components/AccountDragons.js","./components/Root":"components/Root.js","./actions/account":"actions/account.js","./actions/publicDragons":"actions/publicDragons.js"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -54687,7 +54794,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56382" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56606" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
