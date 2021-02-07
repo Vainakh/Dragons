@@ -37799,7 +37799,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ACCOUNT_DRAGONS = exports.ACCOUNT = exports.DRAGON = exports.GENERATION = void 0;
+exports.ACCOUNT_INFO = exports.ACCOUNT_DRAGONS = exports.ACCOUNT = exports.DRAGON = exports.GENERATION = void 0;
 var GENERATION = {
   FETCH: 'GENERATION_FETCH',
   FETCH_ERROR: 'GENERATION_FETCH_ERROR',
@@ -37826,6 +37826,12 @@ var ACCOUNT_DRAGONS = {
   FETCH_SUCCESS: 'ACCOUNT_DRAGON_FETCH_SUCCESS'
 };
 exports.ACCOUNT_DRAGONS = ACCOUNT_DRAGONS;
+var ACCOUNT_INFO = {
+  FETCH: 'ACCOUNT_INFO_FETCH',
+  FETCH_ERROR: 'ACCOUNT_INFO_FETCH_ERROR',
+  FETCH_SUCCESS: 'ACCOUNT_INFO_FETCH_SUCCESS'
+};
+exports.ACCOUNT_INFO = ACCOUNT_INFO;
 },{}],"reducers/fetchStates.js":[function(require,module,exports) {
 "use strict";
 
@@ -54524,7 +54530,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51434" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51538" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
