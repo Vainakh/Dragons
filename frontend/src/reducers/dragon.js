@@ -1,5 +1,6 @@
-import { DRAGON } from '../actions/types';
-import fetchStates from './fetchStates';
+// import {DRAGON}  from '../actions/types';
+const DRAGON = require('../actions/types');
+const fetchStates = require('./fetchStates');
 
 
 const DEFAULT_DRAGON = {
@@ -23,4 +24,4 @@ const dragon = (state = DEFAULT_DRAGON, action) => {
     }
   };
   
-  export default dragon;
+  module.exports = dragon;

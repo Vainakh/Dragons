@@ -37794,24 +37794,16 @@ thunk.withExtraArgument = createThunkMiddleware;
 var _default = thunk;
 exports.default = _default;
 },{}],"actions/types.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ACCOUNT_INFO = exports.ACCOUNT_DRAGONS = exports.ACCOUNT = exports.DRAGON = exports.GENERATION = void 0;
 var GENERATION = {
   FETCH: 'GENERATION_FETCH',
   FETCH_ERROR: 'GENERATION_FETCH_ERROR',
   FETCH_SUCCESS: 'GENERATION_FETCH_SUCCESS'
 };
-exports.GENERATION = GENERATION;
 var DRAGON = {
   FETCH: 'DRAGON_FETCH',
   FETCH_ERROR: 'DRAGON_FETCH_ERROR',
   FETCH_SUCCESS: 'DRAGON_FETCH_SUCCESS'
 };
-exports.DRAGON = DRAGON;
 var ACCOUNT = {
   FETCH: 'ACCOUNT_FETCH',
   FETCH_ERROR: 'ACCOUNT_FETCH_ERROR',
@@ -37819,32 +37811,29 @@ var ACCOUNT = {
   FETCH_LOGOUT_SUCCESS: 'ACCOUNT_FETCH_LOGOUT_SUCCESS',
   FETCH_AUTHENTICATED_SUCCESS: 'ACCOUNT_FETCH_AUTHENTICATED_SUCCESS'
 };
-exports.ACCOUNT = ACCOUNT;
 var ACCOUNT_DRAGONS = {
   FETCH: 'ACCOUNT_DRAGON_FETCH',
   FETCH_ERROR: 'ACCOUNT_DRAGON_FETCH_ERROR',
   FETCH_SUCCESS: 'ACCOUNT_DRAGON_FETCH_SUCCESS'
 };
-exports.ACCOUNT_DRAGONS = ACCOUNT_DRAGONS;
 var ACCOUNT_INFO = {
   FETCH: 'ACCOUNT_INFO_FETCH',
   FETCH_ERROR: 'ACCOUNT_INFO_FETCH_ERROR',
   FETCH_SUCCESS: 'ACCOUNT_INFO_FETCH_SUCCESS'
 };
-exports.ACCOUNT_INFO = ACCOUNT_INFO;
+module.exports = {
+  GENERATION: GENERATION,
+  DRAGON: DRAGON,
+  ACCOUNT: ACCOUNT,
+  ACCOUNT_DRAGONS: ACCOUNT_DRAGONS,
+  ACCOUNT_INFO: ACCOUNT_INFO
+};
 },{}],"reducers/fetchStates.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
+module.exports = {
   fetching: 'fetching',
   error: 'error',
   success: 'success'
 };
-exports.default = _default;
 },{}],"reducers/generation.js":[function(require,module,exports) {
 "use strict";
 
@@ -37967,24 +37956,16 @@ var account = function account() {
 var _default = account;
 exports.default = _default;
 },{"../actions/types":"actions/types.js","./fetchStates":"reducers/fetchStates.js"}],"reducers/dragon.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _types = require("../actions/types");
-
-var _fetchStates = _interopRequireDefault(require("./fetchStates"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+// import {DRAGON}  from '../actions/types';
+var DRAGON = require('../actions/types');
+
+var fetchStates = require('./fetchStates');
 
 var DEFAULT_DRAGON = {
   dragonId: '',
@@ -37999,20 +37980,20 @@ var dragon = function dragon() {
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
-    case _types.DRAGON.FETCH:
+    case DRAGON.FETCH:
       return _objectSpread(_objectSpread({}, state), {}, {
-        status: _fetchStates.default.fetching
+        status: fetchStates.fetching
       });
 
-    case _types.DRAGON.FETCH_ERROR:
+    case DRAGON.FETCH_ERROR:
       return _objectSpread(_objectSpread({}, state), {}, {
-        status: _fetchStates.default.error,
+        status: fetchStates.error,
         message: action.message
       });
 
-    case _types.DRAGON.FETCH_SUCCESS:
+    case DRAGON.FETCH_SUCCESS:
       return _objectSpread(_objectSpread({}, state), {}, {
-        status: _fetchStates.default.success
+        status: fetchStates.success
       }, action.dragon);
 
     default:
@@ -38020,8 +38001,7 @@ var dragon = function dragon() {
   }
 };
 
-var _default = dragon;
-exports.default = _default;
+module.exports = dragon;
 },{"../actions/types":"actions/types.js","./fetchStates":"reducers/fetchStates.js"}],"reducers/accountDragons.js":[function(require,module,exports) {
 "use strict";
 
@@ -54707,7 +54687,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55790" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56382" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
