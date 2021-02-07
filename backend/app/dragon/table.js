@@ -3,16 +3,13 @@ const DragonTraitTable = require('../dragonTrait/table');
 
 class DragonTable {
   static storeDragon(dragon) {
-    // console.log("dragon", dragon);
-    // console.log("dragon traits", dragon.traits);
-    const { birthday, nickname, generationId } = dragon;
+    const { birthday, nickname, generationId, isPublic, saleValue } = dragon;
 
     return new Promise((resolve, reject) => {
       pool.query(
-        'INSERT INTO dragon(birthday, nickname, "generationId") VALUES($1, $2, $3) RETURNING id',
-        [birthday, nickname, generationId],
+        'INSERT INTO dragon(birthday, nickname, "generationId", "isPublic", "saleValue") VALUES($1, $2, $3, $4, $5) RETURNING id',
+        [birthday, nickname, generationId, isPublic, saleValue],
         (error, response) => {
-          // console.log({response});
           if (error) return reject(error);
           const dragonId = response.rows[0].id;
 
@@ -21,20 +18,18 @@ class DragonTable {
               dragonId, traitType, traitValue
             });
           }))
-          .then(() => {
-            resolve({ dragonId });
-          })
+          .then(() => 
+            resolve({ dragonId }))
           .catch(error => reject(error));
         }
       )
-    });
-    
+    }); 
   }
 
   static getDragon({ dragonId }) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `SELECT birthday, nickname, "generationId" FROM dragon WHERE dragon.id = $1`,
+        `SELECT birthday, nickname, "generationId", "isPublic", "saleValue" FROM dragon WHERE dragon.id = $1`,
         [dragonId],
         (error, response) => {
           if (error) return reject(error);
@@ -47,11 +42,11 @@ class DragonTable {
     })
   }
 
-  static updateDragon({ dragonId, nickname }) {
+  static updateDragon({ dragonId, nickname, isPublic, saleValue }) {
     return new Promise(( resolve, reject ) => {
       pool.query(
-        'UPDATE dragon SET nickname = $1 WHERE id = $2',
-        [nickname, dragonId],
+        'UPDATE dragon SET nickname = $1, "isPublic" = $2, "saleValue" = $3 WHERE id = $2',
+        [nickname, isPublic, saleValue, dragonId],
         (error, response) => {
           if (error) return reject(error);
 
