@@ -27,6 +27,8 @@ class Home extends Component {
         <AccountInfo />
         <hr/>
         <Link to='/account-dragons' onClick={() => {window.location.href='/account-dragons'}} >Account Dragons</Link>
+        <br/>
+        <Link to='/public-dragons' onClick={() => {window.location.href='/public-dragons'}} >Public Dragons</Link>
       </div>
     );
   }

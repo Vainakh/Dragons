@@ -11,6 +11,7 @@ import AccountDragons from './components/AccountDragons';
 import Root from './components/Root';
 import { fetchAuthenticated } from './actions/account';
 import { fetchPublicDragons } from './actions/publicDragons';
+import PublicDragons from './components/PublicDragons';
 
 const history = createBrowserHistory();
 
@@ -57,6 +58,10 @@ store.dispatch(fetchAuthenticated())
           <AuthRoute
            path='/redirect-to-account-dragons'
            component={RedirectToAccountDragons}
+           />
+           <AuthRoute
+             path='/public-dragons' 
+             component={PublicDragons}
            />
         </Switch>
       </Router> 
